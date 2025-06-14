@@ -1,0 +1,155 @@
+=====================================================
+           BLOOD BRIDGE – INSTALLATION GUIDE
+=====================================================
+
+📁 PROJECT STRUCTURE
+-----------------------------------------------------
+Final_year_project/
+│
+├── BloodBridge/          → Spring Boot source code + frontend HTML
+├── Dump20250612/         → SQL database schema + sample data
+└── INSTALLATION.txt      → This installation guide
+
+=====================================================
+1. PREREQUISITES
+=====================================================
+
+To run the Blood Bridge project, ensure the following tools
+are installed on your system:
+
+📦 BACKEND:
+- Java JDK 21 or higher
+- Apache Maven
+- MySQL 8 or higher
+- IDE: IntelliJ IDEA or Eclipse
+
+🖥️ FRONTEND:
+- A modern browser (Google Chrome recommended)
+- Optional: VS Code with Live Server extension
+
+=====================================================
+2. DATABASE SETUP (MySQL)
+=====================================================
+
+📌 Step-by-step instructions:
+
+1️⃣ Open MySQL Workbench or your SQL client.
+
+2️⃣ Create the database manually:
+
+    CREATE DATABASE blood_bridge;
+
+3️⃣ Import the database dump:
+    - Navigate to the folder: Dump20250612/
+    - Import the `.sql` file into `blood_bridge` database.
+
+=====================================================
+3. CONFIGURE BACKEND
+=====================================================
+
+🔧 Edit this file:
+
+BloodBridge/src/main/resources/application.properties
+
+✍️ Update the following values:
+
+    # MySQL configuration
+    spring.datasource.url=jdbc:mysql://localhost:3306/blood_bridge
+    spring.datasource.username=your_mysql_username
+    spring.datasource.password=your_mysql_password
+
+    # Mail configuration
+    spring.mail.username=your_email@gmail.com
+    spring.mail.password=your_app_password
+
+    # Hibernate & JPA
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.show-sql=true
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+    # File upload limits
+    spring.servlet.multipart.max-file-size=5MB
+    spring.servlet.multipart.max-request-size=5MB
+
+=====================================================
+4. RUNNING THE PROJECT
+=====================================================
+
+🎯 BACKEND (Spring Boot):
+
+🟢 Option 1: Using IntelliJ or Eclipse
+- Open BloodBridge in your IDE
+- Locate BloodbridgeApplication.java
+- Right-click and run as Java Application
+
+🟢 Option 2: Using Command Line
+- Open terminal:
+    cd BloodBridge
+    mvn spring-boot:run
+
+🌍 Access the application in your browser:
+    http://localhost:8080/
+
+=====================================================
+5. RUNNING THE FRONTEND
+=====================================================
+
+🔹 The frontend is built using static HTML/CSS/JS.
+
+🟢 Option 1: Open Directly
+- Open the HTML files (e.g., donor.html) in your browser
+
+🟢 Option 2: Use VS Code + Live Server
+- Open the folder in VS Code
+- Install "Live Server" extension
+- Right-click → "Open with Live Server"
+
+💡 Note: Backend must be running on localhost:8080
+for API calls to work.
+
+=====================================================
+6. USER ROLES
+=====================================================
+
+🔐 Admin
+- Can manage donors, patients, blood requests, and feedback
+
+🩸 Donor
+- Register, log in, donate blood, view donation history
+
+🏥 Patient
+- Register, log in, request blood, view request history
+
+💬 Feedback
+- Any user can submit feedback, admin can view/manage
+
+=====================================================
+7. TROUBLESHOOTING
+=====================================================
+
+❌ "Cannot connect to database":
+✔️ Make sure MySQL server is running
+✔️ Confirm correct DB name & credentials
+
+❌ "Mail sending failed":
+✔️ Use Gmail App Password (not personal password)
+✔️ Ensure port 587 is not blocked
+
+❌ "404 or API not working":
+✔️ Confirm backend is running (localhost:8080)
+✔️ Check API URLs in frontend JavaScript
+
+=====================================================
+📬 CONTACT
+=====================================================
+
+For support or feedback:
+
+📧 Email: bloodbridge08@gmail.com  
+👩 Author: Sweety Acharjee  
+👩‍💻 Team Members: Disha Mondal, Ayesha Khatun  
+🎓 Final Year B.Tech Project – Blood Bridge
+
+=====================================================
+          END OF INSTALLATION GUIDE
+=====================================================

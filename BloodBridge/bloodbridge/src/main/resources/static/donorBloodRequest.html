@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System - Blood Request</title>
+    <link rel="stylesheet" href="/css/donorBloodRequest.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Blood Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="link" href="donor.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="link" href="donorDonateBlood.html"><i class="fas fa-hand-holding-medical"></i> Donate Blood</a></li>
+                <li><a class="link" href="donorDonationHistory.html"><i class="fas fa-history"></i> Donation History</a></li>
+                <li class="active"><a class="link" href="donorBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Request</a></li>
+                <li><a class="link" href="donorRequestHistory.html"><i class="fas fa-clock-rotate-left"></i> Request History</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Make Blood Request</h1>
+                <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+            </header>
+
+            <!-- Request Form -->
+            <div class="form-container">
+                <h2>MAKE BLOOD REQUEST</h2>
+                <form class="request-form">
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" id="patientName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patientAge">Patient Age</label>
+                        <input type="number" id="patientAge" required min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason">Reason</label>
+                        <input type="text" id="reason" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Choose option</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit">Unit (in ml)</label>
+                        <div class="number-input">
+                            <input type="number" id="unit" required min="1" max="450">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prescription">Upload Prescription</label>
+                        <input type="file" id="prescription" accept="image/*" required>
+                        <small class="file-hint">Please upload a clear image of your prescription (JPG, PNG, or PDF)</small>
+                    </div>
+
+                    <button type="submit" class="request-btn">REQUEST</button>
+                </form>
+            </div>
+        </main>
+    </div>
+	<script>
+	document.querySelector(".request-form").addEventListener("submit", async function (e) {
+	    e.preventDefault();
+
+	    const userId = localStorage.getItem("userId");
+
+	    if (!userId) {
+	        alert("You must be logged in to make a request.");
+	        return;
+	    }
+
+	    const patientName = document.getElementById("patientName").value;
+	    const patientAge = document.getElementById("patientAge").value;
+	    const reason = document.getElementById("reason").value;
+	    const bloodGroup = document.getElementById("bloodGroup").value;
+	    const unit = document.getElementById("unit").value;
+	    const prescription = document.getElementById("prescription").files[0];
+
+	    const formData = new FormData();
+	    formData.append("patientName", patientName);
+	    formData.append("patientAge", patientAge);
+	    formData.append("reason", reason);
+	    formData.append("bloodGroup", bloodGroup);
+	    formData.append("unit", unit);
+	    formData.append("requesterId", userId);
+	    formData.append("requesterType", "Donor");
+	    formData.append("prescription", prescription);
+
+	    try {
+	        const res = await fetch("http://localhost:8080/api/bloodrequests/upload", {
+	            method: "POST",
+	            body: formData
+	        });
+
+	        if (res.ok) {
+	            alert("Blood request submitted successfully!");
+	            location.reload(); // reload to reflect new data
+	        } else {
+	            const errorText = await res.text();
+	            alert("Failed to submit blood request: " + errorText);
+	        }
+	    } catch (err) {
+	        console.error("Error:", err);
+	        alert("Error submitting request.");
+	    }
+	});
+	</script>
+
+
+
+</body>
+</html> 

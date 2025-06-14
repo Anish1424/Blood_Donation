@@ -1,0 +1,172 @@
+/* Blood Stock Grid Styles */
+.blood-stock-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.blood-stock-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.blood-stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.blood-stock-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.blood-stock-card:hover::before {
+    transform: scaleX(1);
+}
+
+.blood-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.blood-type {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.blood-drop {
+    color: var(--primary-color);
+    font-size: 24px;
+    animation: dropPulse 1.5s infinite;
+}
+
+@keyframes dropPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.units {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    color: #333;
+}
+
+/* Update Section Styles */
+.update-section {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    animation: slideUp 0.5s ease-out;
+}
+
+.update-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.update-form {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.blood-group-select,
+.unit-input {
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.blood-group-select {
+    min-width: 200px;
+    background-color: white;
+}
+
+.unit-input {
+    width: 150px;
+}
+
+.blood-group-select:focus,
+.unit-input:focus {
+    border-color: var(--primary-color);
+}
+
+.update-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .blood-stock-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .blood-stock-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .update-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .blood-group-select,
+    .unit-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .blood-stock-grid {
+        grid-template-columns: 1fr;
+    }
+} 

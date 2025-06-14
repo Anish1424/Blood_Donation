@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blood Bridge</title>
+  <link rel="stylesheet" href="/css/AdminReg.css" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="form-box">
+      <div class="title-frame">
+        <h2>Admin Register</h2>
+      </div>
+
+      <form id="registerForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+
+        <div class="login-register-container">
+          <button type="submit" class="register-btn">Register</button>
+          <button type="button" class="login-btn" onclick="redirectToLogin()"><a class="link" href="AdminLogin.html">Login</a></button>
+        </div>
+      </form>
+
+      <p class="message" id="alreadyRegisteredMsg" style="display:none;">This email is already registered. Please login.</p>
+
+      <div class="back-link">
+        <a href="project.html">Return to Home?</a>
+        <a href="AdminForgotPassword.html">Forgot password?</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+/* Donation Table Container */
+.donation-table-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Donation Table Styles */
+.donation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.donation-table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.donation-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.donation-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.donation-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+/* Status Styles */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.approved {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status.rejected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.status.pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+/* Units Added/Not Added Styles */
+.units-added {
+    background-color: #ff9800;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+.units-not-added {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+/* Action Button Styles (Approve, Reject, View) */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* helps on smaller screens */
+}
+
+.approve-btn,
+.reject-btn,
+.view-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+
+/* View Button */
+.view-btn {
+  background-color:  #990303;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+.view-btn:hover {
+  background-color: #7a0202;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .donation-table {
+        font-size: 0.9rem;
+    }
+    
+    .donation-table th,
+    .donation-table td {
+        padding: 12px 8px;
+    }
+
+    .approve-btn, .reject-btn, .view-btn {
+        padding: 6px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .donation-table-container {
+        overflow-x: auto;
+    }
+    
+    .donation-table {
+        min-width: 900px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Approve Button */
+.approve-btn {
+    background-color: #ffa500; /* Orange */
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.approve-btn:hover {
+    background-color: #e69500;
+    transform: translateY(-2px);
+}
+
+/* Reject Button */
+.reject-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.reject-btn:hover {
+    background-color: #43a047;
+    transform: translateY(-2px);
+}

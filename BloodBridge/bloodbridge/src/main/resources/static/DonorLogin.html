@@ -1,0 +1,73 @@
+<!-- DonorLogin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donor Login</title>
+  <link rel="stylesheet" href="css/DonorLogin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="login-container">
+    <form class="login-box" id="donorLoginForm">
+      <h2>Donor Login</h2>
+
+      <div class="input-icon">
+        <input type="email" id="email" placeholder="Enter Email" required />
+        <i class="fas fa-user"></i>
+      </div>
+
+      <div class="input-icon">
+        <input type="password" id="password" placeholder="Password" required />
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <div class="options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="DonarForgotPassword.html">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+      <p class="footer-link">Don't have an account? <a href="DonorReg.html">Register</a></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("donorLoginForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("http://localhost:8080/api/donors/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+
+          // ✅ Store donor info in localStorage
+          localStorage.setItem("donorId", result.donorId);
+          localStorage.setItem("donorEmail", email);
+          localStorage.setItem("donorName", result.fullName); // ✅ added donor name here
+
+          alert(result.message);
+          window.location.href = "donor.html";
+        } else {
+          const error = await response.text();
+          alert("Login failed: " + error);
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

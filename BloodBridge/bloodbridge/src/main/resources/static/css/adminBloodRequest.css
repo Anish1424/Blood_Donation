@@ -1,0 +1,154 @@
+/* Request Table Container */
+.request-table-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Request Table Styles */
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.request-table thead {
+    background-color: #990303;
+    color: white;
+}
+
+.request-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.request-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.request-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+/* Status Styles */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Action Button Styles */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.approve-btn,
+.reject-btn,
+.view-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Approve Button */
+.approve-btn {
+    background-color: #ffa500; /* Orange */
+    color: white;
+}
+
+.approve-btn:hover {
+    background-color: #e69500;
+    transform: translateY(-2px);
+}
+
+/* Reject Button */
+.reject-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #43a047;
+    transform: translateY(-2px);
+}
+
+/* ✅ View Button - NEW STYLE */
+.view-btn {
+    background-color: #990303; /* Same as table header */
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-btn:hover {
+    background-color: #7a0202;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .request-table {
+        font-size: 0.9rem;
+    }
+
+    .request-table th,
+    .request-table td {
+        padding: 12px 8px;
+    }
+
+    .approve-btn, .reject-btn, .view-btn {
+        padding: 6px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .request-table-container {
+        overflow-x: auto;
+    }
+
+    .request-table {
+        min-width: 900px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

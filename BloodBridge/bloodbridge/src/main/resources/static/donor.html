@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System - Donor Dashboard</title>
+    <link rel="stylesheet" href="/css/donor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Blood Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a class="link" href="donor.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="link" href="donorDonateBlood.html"><i class="fas fa-hand-holding-medical"></i> Donate Blood</a></li>
+                <li><a class="link" href="donorDonationHistory.html"><i class="fas fa-history"></i> Donation History</a></li>
+                <li><a class="link" href="donorBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Request</a></li>
+                <li><a class="link" href="donorRequestHistory.html"><i class="fas fa-clock-rotate-left"></i> Request History</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Donate Blood Save Lives</h1>
+                <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+            </header>
+
+            <!-- Statistics Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Request Made</h3>
+                        <p class="stat-number" id="totalRequests">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pending Request</h3>
+                        <p class="stat-number" id="pendingRequests">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Approved Request</h3>
+                        <p class="stat-number" id="approvedRequests">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon rejected">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Rejected Request</h3>
+                        <p class="stat-number" id="rejectedRequests">0</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript to fetch and populate stats -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const donorId = localStorage.getItem("donorId");
+
+        if (!donorId) {
+            console.error("Donor ID not found in localStorage.");
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/donors/${donorId}/donations`)
+            .then(response => response.json())
+            .then(data => {
+                let total = data.length;
+                let pending = 0, approved = 0, rejected = 0;
+
+                data.forEach(d => {
+                    if (d.status === "Pending") pending++;
+                    else if (d.status === "Approved") approved++;
+                    else if (d.status === "Rejected") rejected++;
+                });
+
+                document.getElementById("totalRequests").textContent = total;
+                document.getElementById("pendingRequests").textContent = pending;
+                document.getElementById("approvedRequests").textContent = approved;
+                document.getElementById("rejectedRequests").textContent = rejected;
+            })
+            .catch(err => {
+                console.error("Failed to fetch donation stats:", err);
+            });
+    });
+    </script>
+</body>
+</html>

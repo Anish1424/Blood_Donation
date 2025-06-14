@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blood Bank Management System - Patient Details</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="/css/adminPatient.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <span>Blood Bridge</span>
+      </div>
+      <ul class="nav-links">
+        <li><a class="link" href="admin.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a class="link" href="adminDonor.html"><i class="fas fa-user"></i> Donor</a></li>
+        <li class="active"><a class="link" href="adminPatient.html"><i class="fas fa-procedures"></i> Patient</a></li>
+        <li><a class="link" href="adminDonations.html"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+        <li><a class="link" href="adminBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Requests</a></li>
+        <li><a class="link" href="adminRequestHistory.html"><i class="fas fa-history"></i> Request History</a></li>
+        <li><a class="link" href="adminBloodStock.html"><i class="fas fa-box"></i> Blood Stock</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <div class="header-title">Blood Bank Management System</div>
+        <button class="logout-btn">Logout <i class="fas fa-sign-out-alt"></i></button>
+      </header>
+
+      <div class="patient-section">
+        <h2>PATIENT DETAILS</h2>
+        <div class="table-container">
+          <table class="patient-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+				<th>Email</th>
+				<th>Phone no.</th>
+                <th>Blood Group</th>
+                <th>Age</th>
+                <th>Disease</th>
+                
+              </tr>
+            </thead>
+            <tbody id="patient-table-body">
+              <!-- Filled dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function fetchPatients() {
+      try {
+        const response = await fetch('http://localhost:8080/api/patients');
+        const patients = await response.json();
+        const tbody = document.getElementById('patient-table-body');
+        tbody.innerHTML = '';
+
+        patients.forEach(patient => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${patient.fullName}</td>
+			<td>${patient.email}</td>
+			<td>${patient.phone || patient.phoneNumber || 'N/A'}</td>
+            <td>${patient.bloodGroup}</td>
+            <td>${patient.age}</td>
+            <td>${patient.disease}</td>
+            
+            
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error fetching patients:", err);
+      }
+    }
+
+    window.onload = fetchPatients;
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+/* Request Table Container */
+.request-table-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Request Table Styles */
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.request-table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.request-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.request-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.request-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+/* Status Styles */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.approved {
+    background-color: #ffa500;
+    color: white;
+}
+
+.status.rejected {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Stock Status Styles */
+.stock-status {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+    color: white;
+}
+
+.stock-status.deducted {
+    background-color: #ffa500;
+}
+
+.stock-status.not-deducted {
+    background-color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .request-table {
+        font-size: 0.9rem;
+    }
+    
+    .request-table th,
+    .request-table td {
+        padding: 12px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .request-table-container {
+        overflow-x: auto;
+    }
+    
+    .request-table {
+        min-width: 900px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

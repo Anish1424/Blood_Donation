@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blood Requests</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="/css/adminBloodRequest.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo"><i class="fas fa-heartbeat"></i><span>Blood Bridge</span></div>
+      <ul class="nav-links">
+        <li><a class="link" href="admin.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a class="link" href="adminDonor.html"><i class="fas fa-user"></i> Donor</a></li>
+        <li><a class="link" href="adminPatient.html"><i class="fas fa-procedures"></i> Patient</a></li>
+        <li><a class="link" href="adminDonations.html"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+        <li class="active"><a class="link" href="adminBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Requests</a></li>
+        <li><a class="link" href="adminRequestHistory.html"><i class="fas fa-history"></i> Request History</a></li>
+        <li><a class="link" href="adminBloodStock.html"><i class="fas fa-box"></i> Blood Stock</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <div class="header-title">Blood Request Approvals</div>
+        <button class="logout-btn">Logout <i class="fas fa-sign-out-alt"></i></button>
+      </header>
+
+      <!-- Request Table -->
+      <div class="table-container">
+        <table class="request-table">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Reason</th>
+              <th>Blood Group</th>
+              <th>Unit</th>
+              <th>Status</th>
+              <th>Prescription</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="request-table-body">
+            <!-- Filled dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function fetchBloodRequests() {
+      try {
+        const response = await fetch("http://localhost:8080/api/bloodrequests");
+
+        if (!response.ok) {
+          console.error("Failed to fetch requests");
+          return;
+        }
+
+        const requests = await response.json();
+        const tbody = document.getElementById("request-table-body");
+        tbody.innerHTML = "";
+
+        if (requests.length === 0) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td colspan="8" style="text-align:center; color: grey;">No blood requests found</td>`;
+          tbody.appendChild(tr);
+          return;
+        }
+
+        requests.forEach(req => {
+          const tr = document.createElement("tr");
+		  tr.setAttribute("data-patient-id", req.patientId);
+          tr.innerHTML = `
+            <td>${req.patientName}</td>
+            <td>${req.patientAge}</td>
+            <td>${req.reason}</td>
+            <td>${req.bloodGroup}</td>
+            <td>${req.unit}</td>
+            <td>${req.status}</td>
+            <td>
+              ${req.prescriptionPath 
+                ? `<button class="view-btn" onclick="viewPrescription('${req.prescriptionPath}')">View</button>`
+                : 'No File'}
+            </td>
+            <td class="action-buttons">
+              <button class="approve-btn" onclick="updateStatus(${req.id}, 'Approved')">Approve</button>
+              <button class="reject-btn" onclick="updateStatus(${req.id}, 'Rejected')">Reject</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
+    }
+
+    async function updateStatus(id, newStatus) {
+      try {
+        let res;
+
+        if (newStatus === 'Approved') {
+          // Call special approval API which handles stock check
+          res = await fetch(`http://localhost:8080/api/admin/blood-requests/${id}/approve`, {
+            method: "POST"
+          });
+
+          const msg = await res.text();
+          if (res.ok) {
+            alert("Request Approved: " + msg);
+            fetchBloodRequests();
+          } else {
+            alert("Approval Failed: " + msg);
+          }
+
+        } else {
+          // Simple status update (like Rejected)
+          res = await fetch(`http://localhost:8080/api/bloodrequests/${id}/status`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+          });
+
+          if (res.ok) {
+            alert("Status updated to " + newStatus);
+            fetchBloodRequests();
+          } else {
+            alert("Failed to update status");
+          }
+        }
+      } catch (err) {
+        console.error("Update error:", err);
+      }
+    }
+
+	function viewPrescription(fileName) {
+	  const cleanFileName = fileName.split(/[\\/]/).pop(); // Removes directory
+	  const url = `http://localhost:8080/uploads/${cleanFileName}`;
+	  window.open(url, "_blank");
+	}
+
+
+    window.onload = fetchBloodRequests;
+  </script>
+</body>
+</html>

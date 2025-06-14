@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Bridge - Donor Details</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="/css/adminDonor.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i><span>Blood Bridge</span>
+      </div>
+      <ul class="nav-links">
+        <li><a class="link" href="admin.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active"><a class="link" href="adminDonor.html"><i class="fas fa-user"></i> Donor</a></li>
+        <li><a class="link" href="adminPatient.html"><i class="fas fa-procedures"></i> Patient</a></li>
+        <li><a class="link" href="adminDonations.html"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+        <li><a class="link" href="adminBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Requests</a></li>
+        <li><a class="link" href="adminRequestHistory.html"><i class="fas fa-history"></i> Request History</a></li>
+        <li><a class="link" href="adminBloodStock.html"><i class="fas fa-box"></i> Blood Stock</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <div class="header-title">Blood Bank Management System</div>
+        <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+      </header>
+
+      <div class="donor-section">
+        <h2>DONOR DETAILS</h2>
+        <div class="table-container">
+          <table class="donor-table">
+			<thead>
+			  <tr>
+			    <th>Name</th>
+				<th>Email</th>
+				<th>Phone No.</th>
+			    <th>Blood Group</th>
+			    <th>Age</th>
+			    <th>Disease</th>
+			    
+			  </tr>
+			</thead>
+            <tbody id="donorTableBody">
+              <!-- Donor rows inserted dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    fetch("http://localhost:8080/api/admin/donors")
+      .then(res => res.json())
+      .then(data => {
+        const table = document.getElementById("donorTableBody");
+        if (!data || data.length === 0) {
+          table.innerHTML = "<tr><td colspan='6'>No donors found.</td></tr>";
+        } else {
+			table.innerHTML = data.map(d => `
+			  <tr>
+			    <td data-label="Name">${d.fullName}</td>
+				<td data-label="Email">${d.email || 'N/A'}</td>
+				<td data-label="Phone No.">${d.phone || d.phoneNumber || d.contactNumber || 'N/A'}</td>
+			    <td data-label="Blood Group">${d.bloodGroup}</td>
+			    <td data-label="Age">${d.age}</td>
+			    <td data-label="Disease">${d.disease}</td>
+			    
+			    
+			  </tr>
+			`).join('');
+
+        }
+      });
+
+    
+  </script>
+</body>
+</html>

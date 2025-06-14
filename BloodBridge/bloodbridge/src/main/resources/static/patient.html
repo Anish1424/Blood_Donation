@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System - Donor Dashboard</title>
+    <link rel="stylesheet" href="/css/patient.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Blood Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a class="link" href="patient.css"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="link" href="patientBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Request</a></li>
+                <li><a class="link" href="patientRequestHistory.html"><i class="fas fa-clock-rotate-left"></i> Request History</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>People Live When People Give</h1>
+                <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+            </header>
+
+            <!-- Statistics Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Request Made</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pending Request</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Approved Request</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon rejected">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Rejected Request</h3>
+                        <p class="stat-number">0</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+	
+	<script>
+	    async function loadPatientStats() {
+	        const userId = localStorage.getItem('userId');
+	        if (!userId) {
+	            alert('User not logged in');
+	            return;
+	        }
+
+	        try {
+	            const response = await fetch(`http://localhost:8080/api/bloodrequests/patient/${userId}/stats`);
+	            if (!response.ok) throw new Error('Network error');
+	            const stats = await response.json();
+
+	            const statNumbers = document.querySelectorAll('.stat-number');
+	            statNumbers[0].textContent = stats.total || 0;
+	            statNumbers[1].textContent = stats.pending || 0;
+	            statNumbers[2].textContent = stats.approved || 0;
+	            statNumbers[3].textContent = stats.rejected || 0;
+
+	        } catch (err) {
+	            console.error('Failed to fetch stats:', err);
+	        }
+	    }
+
+		window.onload = () => {
+		    loadPatientStats();
+		    setInterval(loadPatientStats, 10000); // refresh every 10 seconds
+		};
+
+	</script>
+
+</body>
+</html> 

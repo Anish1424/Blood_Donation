@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Feedbacks - Admin</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      .feedback-table-container {
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+      }
+
+      .feedback-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .feedback-table th {
+        background-color: rgb(165, 15, 15);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 500;
+      }
+
+      .feedback-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .feedback-table tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      .refresh-btn {
+        background-color: rgb(165, 15, 15);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px;
+        transition: background-color 0.3s;
+      }
+
+      .refresh-btn:hover {
+        background-color: #8b0f0f;
+      }
+
+      .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .no-feedback {
+        text-align: center;
+        padding: 20px;
+        color: #666;
+        font-style: italic;
+      }
+
+      .user-type {
+        font-weight: bold;
+        color: rgb(165, 15, 15);
+      }
+
+      .timestamp {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .logout-btn a {
+        text-decoration: none;
+        color: white;
+      }
+
+      .logout-btn {
+        background-color: rgb(165, 15, 15);
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .header-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: White;
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-heartbeat"></i>
+          <span>Blood Bridge</span>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a class="link" href="admin.html"
+              ><i class="fas fa-home"></i> Home</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminDonor.html"
+              ><i class="fas fa-user"></i> Donor</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminPatient.html"
+              ><i class="fas fa-procedures"></i> Patient</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminDonations.html"
+              ><i class="fas fa-hand-holding-medical"></i> Donations</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminBloodRequest.html"
+              ><i class="fas fa-notes-medical"></i> Blood Requests</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminRequestHistory.html"
+              ><i class="fas fa-history"></i> Request History</a
+            >
+          </li>
+          <li>
+            <a class="link" href="adminBloodStock.html"
+              ><i class="fas fa-box"></i> Blood Stock</a
+            >
+          </li>
+          <li class="active">
+            <a class="link" href="userFeedback.html"
+              ><i class="fas fa-comments"></i> User Feedback</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header>
+          <div class="header-title">User Feedbacks</div>
+          <button class="logout-btn">
+            <a class="link" href="project.html"
+              >Logout <i class="fas fa-sign-out-alt"></i
+            ></a>
+          </button>
+        </header>
+        <div class="feedback-header">
+          <button class="refresh-btn" onclick="loadFeedbacks()">
+            <i class="fas fa-sync-alt"></i> Refresh Feedbacks
+          </button>
+        </div>
+        <div class="feedback-table-container">
+          <table class="feedback-table">
+            <thead>
+              <tr>
+                <th>User Type</th>
+                <th>Overall Experience</th>
+                <th>Comfort Level</th>
+                <th>Process Clarity</th>
+                <th>Future Donation</th>
+                <th>Suggestions</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="feedbackTableBody">
+              <tr>
+                <td colspan="7" class="no-feedback">Loading feedbacks...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function formatDate(isoString) {
+        const d = new Date(isoString);
+        return d.toLocaleString();
+      }
+
+      function clearTable() {
+        const tbody = document.getElementById("feedbackTableBody");
+        while (tbody.firstChild) {
+          tbody.removeChild(tbody.firstChild);
+        }
+      }
+
+      async function loadFeedbacks() {
+        const tbody = document.getElementById("feedbackTableBody");
+        clearTable();
+
+        try {
+          const response = await fetch("http://localhost:8080/api/feedback");
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const feedbacks = await response.json();
+          if (!Array.isArray(feedbacks) || feedbacks.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="7" class="no-feedback">No feedbacks to display</td></tr>';
+            return;
+          }
+
+          feedbacks.reverse().forEach((fb) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td><span class="user-type">${fb.userType}</span></td>
+              <td>${fb.overallExperience}</td>
+              <td>${fb.comfortLevel}</td>
+              <td>${fb.processClarity}</td>
+              <td>${fb.futureDonation}</td>
+              <td>${fb.suggestions}</td>
+              <td><span class="timestamp">${formatDate(
+                fb.timestamp
+              )}</span></td>
+            `;
+            tbody.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error fetching feedbacks:", error);
+          tbody.innerHTML =
+            '<tr><td colspan="7" class="no-feedback">Failed to load feedbacks</td></tr>';
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadFeedbacks);
+    </script>
+  </body>
+</html>

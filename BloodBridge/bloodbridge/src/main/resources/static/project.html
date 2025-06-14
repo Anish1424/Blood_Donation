@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blood Donors - Save Lives</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+      .Feedback {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 40px 20px;
+        background: #fafafa;
+      }
+      .feedback-section {
+        flex: 1 1 400px;
+        padding: 20px;
+      }
+      .feedback-section h1 {
+        color: #a50f0f;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .submit-btn {
+        background: #a50f0f;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .submit-btn:hover {
+        background: #8b0f0f;
+      }
+      .image-section {
+        flex: 1 1 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .image-section .background-image {
+        max-width: 100%;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header / Navbar -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-links">
+          <a href="#hero-section">Home</a>
+          <a href="#about">Guidelines</a>
+          <a href="#Feedback">Feedback</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero-section" id="hero-section">
+      <div class="hero-background"></div>
+      <div class="floating-heart"><span>CLICK ME</span></div>
+      <div class="content-left">
+        <h1>
+          <span class="highlight">BLOOD</span> <span class="dark">BRIDGE</span>
+        </h1>
+        <p class="description">
+          A person who gives blood for transfusion. It is not permissible to
+          sell one's blood or to pay the blood donor.
+        </p>
+        <div class="cta-buttons">
+          <button class="btn-log">
+            <a class="link" href="AdminReg.html">Admin</a>
+          </button>
+          <button class="btn-donor">
+            <a class="link" href="DonorReg.html">Donor</a>
+          </button>
+          <button class="btn-pat">
+            <a class="link" href="PatientReg.html">Patient</a>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Message / Video Section -->
+    <div class="msg">
+      <video autoplay loop muted playsinline>
+        <source src="/animations/anime.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <p class="msg-message">Be a life saver for someone</p>
+      <h1 class="DB">"Donate Blood"</h1>
+    </div>
+
+    <!-- About Section -->
+    <div class="about" id="about">
+      <h1 class="heading"><span>Why should people donate blood?</span></h1>
+      <div class="row">
+        <div class="content">
+          <p>
+            Donating blood is one of the most impactful and selfless acts a
+            person can do. It saves lives—one donation can help up to three
+            people in need, whether they're undergoing surgery, battling cancer,
+            recovering from an accident, or managing chronic illnesses like
+            sickle cell anemia.
+          </p>
+          <p>
+            Since there is no substitute for human blood, the only way to meet
+            this critical need is through generous donors. Giving blood also
+            supports your community and is a way to give back, knowing that
+            someone, somewhere, will live because of your kindness.
+          </p>
+          <p>
+            Beyond the humanitarian aspect, donating blood can also have health
+            benefits for the donor, such as reducing excess iron levels in the
+            body and potentially improving heart health.
+          </p>
+          <p>
+            The process is safe, quick, and handled by trained professionals,
+            taking about an hour of your time, yet making a lasting difference.
+            With such a small effort, you can have a life-saving
+            impact—something that words alone can't fully capture.
+          </p>
+        </div>
+      </div>
+
+      <h1 class="heading"><span>Who can give blood?</span></h1>
+      <div class="row">
+        <div class="content">
+          <p>
+            Not everyone is eligible to donate blood, and there are specific
+            criteria to ensure both the donor's safety and the recipient's.
+            Below are some basic eligibility guidelines:
+          </p>
+          <h2 class="condition">Age :</h2>
+          <p>
+            Most places require donors to be between 18 and 65 years old. In
+            some countries, 16- or 17-year-olds can donate with parental
+            consent. Older adults may still donate if they meet health
+            requirements.
+          </p>
+          <h2 class="condition">Weight :</h2>
+          <p>
+            The minimum weight is usually 50 kg (110 lbs). This ensures that
+            blood volume loss is safe for the donor.
+          </p>
+          <h2 class="condition">Health :</h2>
+          <p>
+            Donors must be in good general health—no fever, cold, or infections
+            at the time of donation. Chronic conditions like diabetes or
+            hypertension may be acceptable if well controlled. People with
+            certain conditions (e.g., hepatitis, HIV, anemia, or recent surgery)
+            may be deferred.
+          </p>
+          <h2 class="condition">Behaviours :</h2>
+          <p>
+            Donors should not have a history of high-risk behaviors such as
+            unprotected sex with multiple partners, recent drug use via needles,
+            or recent tattoos or piercings (depending on local rules, this may
+            require a short deferral period). Travel to certain countries (due
+            to disease risk like malaria) may also temporarily defer donation.
+            No alcohol or smoking right before donation, and you should be
+            well-rested and hydrated.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="Feedback" id="Feedback">
+      <div class="feedback-section">
+        <h1 class="Feed_heading"><span>Feedback</span></h1>
+        <form id="feedbackForm">
+          <div class="form-group">
+            <label for="userType">I am a:</label>
+            <select id="userType" required>
+              <option value="">Select</option>
+              <option value="Donor">Donor</option>
+              <option value="Patient">Patient</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="q1"
+              >How would you describe your overall experience today?</label
+            >
+            <input type="text" id="q1" placeholder="Within 50 words" required />
+          </div>
+          <div class="form-group">
+            <label for="q2">Did you feel comfortable during the process?</label>
+            <input type="text" id="q2" placeholder="Within 50 words" required />
+          </div>
+          <div class="form-group">
+            <label for="q3"
+              >Were the process and instructions clearly explained to
+              you?</label
+            >
+            <input type="text" id="q3" placeholder="Within 50 words" required />
+          </div>
+          <div class="form-group">
+            <label for="q4"
+              >Would you consider connect with us again in the future?</label
+            >
+            <input type="text" id="q4" placeholder="Within 50 words" required />
+          </div>
+          <div class="form-group">
+            <label for="q5"
+              >What suggestions would you give to make the overall experience
+              even better?</label
+            >
+            <input type="text" id="q5" placeholder="Within 50 words" required />
+          </div>
+          <button type="submit" class="submit-btn">Send Feedback</button>
+        </form>
+      </div>
+      <div class="image-section">
+        <img
+          src="/img/donorDay.jpg"
+          alt="Blood Donation Day"
+          class="background-image"
+        />
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const API_URL = "http://localhost:8080/api/feedback";
+        const form = document.getElementById("feedbackForm");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const payload = {
+            userType: form.userType.value,
+            overallExperience: form.q1.value,
+            comfortLevel: form.q2.value,
+            processClarity: form.q3.value,
+            futureDonation: form.q4.value,
+            suggestions: form.q5.value,
+          };
+
+          try {
+            const res = await fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+              showPopup("Your feedback was submitted successfully!", true);
+              form.reset();
+            } else {
+              const errText = await res.text();
+              showPopup("Submission failed: " + errText, false);
+            }
+          } catch (err) {
+            console.error(err);
+            showPopup("Network error. Please try again.", false);
+          }
+        });
+
+        function showPopup(message, success) {
+          const popup = document.createElement("div");
+          popup.style.cssText = `
+          position: fixed; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: ${success ? "#28a745" : "#dc3545"};
+          color: white; padding: 20px 30px;
+          border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          z-index: 1000; text-align: center;
+        `;
+          popup.textContent = message;
+          document.body.appendChild(popup);
+          setTimeout(() => popup.remove(), 3000);
+        }
+      });
+    </script>
+  </body>
+</html>

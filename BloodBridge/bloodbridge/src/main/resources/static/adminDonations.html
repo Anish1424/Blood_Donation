@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blood Bank Management System - Donations</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="stylesheet" href="/css/adminDonations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <span>Blood Bridge</span>
+      </div>
+      <ul class="nav-links">
+        <li><a class="link" href="admin.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a class="link" href="adminDonor.html"><i class="fas fa-user"></i> Donor</a></li>
+        <li><a class="link" href="adminPatient.html"><i class="fas fa-procedures"></i> Patient</a></li>
+        <li class="active"><a class="link" href="adminDonations.html"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+        <li><a class="link" href="adminBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Requests</a></li>
+        <li><a class="link" href="adminRequestHistory.html"><i class="fas fa-history"></i> Request History</a></li>
+        <li><a class="link" href="adminBloodStock.html"><i class="fas fa-box"></i> Blood Stock</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header>
+        <div class="header-title">Blood Donation Details</div>
+        <button class="logout-btn">
+          <a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a>
+        </button>
+      </header>
+
+      <!-- Donation Details Table -->
+      <div class="donation-table-container">
+        <table class="donation-table">
+          <thead>
+            <tr>
+              <th>Donor Name</th>
+              <th>Prescription</th>
+              <th>Disease</th>
+              <th>Age</th>
+              <th>Blood Group</th>
+              <th>Unit</th>
+              <th>Request Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="donationTable">
+            <!-- Dynamic rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    fetch("/api/admin/donations")
+      .then((res) => res.json())
+      .then((data) => {
+        const table = document.getElementById("donationTable");
+        table.innerHTML = data
+          .map(
+            (d) => `
+          <tr>
+            <td>${d.donor ? d.donor.fullName : "N/A"}</td>
+			
+			<td>
+			  ${d.prescriptionPath 
+			    ? `<button class="view-btn" onclick="viewPrescription('${d.prescriptionPath}')">View</button>`
+			    : 'No File'}
+			</td>
+
+            
+            <td>${d.disease}</td>
+            <td>${d.age}</td>
+            <td>${d.bloodGroup}</td>
+            <td>${d.unit}</td>
+            <td>${new Date(d.date).toLocaleDateString()}</td>
+            <td>${d.status}</td>
+            <td>
+				<button class="approve-btn" onclick="approveDonation(${d.id})">Approve</button>
+				<button class="reject-btn" onclick="rejectDonation(${d.id})">Reject</button>
+
+            </td>
+          </tr>
+        `
+          )
+          .join("");
+      });
+
+    function approve(id) {
+      fetch("/api/admin/donations/" + id + "/approve", { method: "POST" }).then(() =>
+        location.reload()
+      );
+    }
+
+    function reject(id) {
+      fetch("/api/admin/donations/" + id + "/reject", { method: "POST" }).then(() =>
+        location.reload()
+      );
+    }
+
+	function viewPrescription(fileName) {
+	  const cleanFileName = fileName.split(/[\\/]/).pop();  // handles paths like uploads/ or full Windows path
+	  const url = `http://localhost:8080/uploads/${cleanFileName}`;
+	  window.open(url, "_blank");
+	}
+
+	
+	function approveDonation(donationId) {
+	    fetch(`/api/admin/donations/${donationId}/approve`, {
+	        method: 'POST'
+	    })
+	    .then(res => res.text())
+	    .then(msg => {
+	        alert(msg);
+	        fetchStats();         // update dashboard stats
+	        fetchBloodStock();    // update blood stock cards
+	        location.reload();    // refresh table
+	    })
+	    .catch(err => console.error("Error approving donation:", err));
+	}
+
+
+	function rejectDonation(donationId) {
+	    fetch(`/api/admin/donations/${donationId}/reject`, {
+	        method: 'POST'
+	    })
+	    .then(res => res.text())
+	    .then(msg => {
+	        alert(msg);
+	        fetchStats();         // update dashboard stats
+	        fetchBloodStock();    // update blood stock cards
+	        loadDonations();      // refresh donation list if needed
+	    })
+	    .catch(err => console.error("Error rejecting donation:", err));
+	}
+  </script>
+</body>
+</html>

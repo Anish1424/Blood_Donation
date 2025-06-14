@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/css/AdminLogin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="login-container">
+    <form class="login-box" onsubmit="loginAdmin(event)">
+      <h2>Admin Login</h2>
+
+      <div class="input-icon">
+        <input type="text" id="email" placeholder="Enter Email" required />
+        <i class="fas fa-user"></i>
+      </div>
+
+      <div class="input-icon">
+        <input type="password" id="password" placeholder="Password" required />
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <div class="options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="AdminForgotPassword.html">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+      <p class="footer-link">Don't have an account? <a href="AdminReg.html">Register</a></p>
+    </form>
+  </div>
+
+  <script>
+    async function loginAdmin(event) {
+      event.preventDefault(); // stop form from refreshing page
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        alert("Please enter both email and password");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8080/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (response.ok) {
+          // Optional: store data or token if needed
+          window.location.href = "admin.html"; // redirect to dashboard
+        } else {
+          const errorText = await response.text();
+          alert("Login failed: " + errorText);
+        }
+
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

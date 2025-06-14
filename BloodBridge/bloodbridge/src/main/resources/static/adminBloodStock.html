@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Bank Management System - Blood Stock</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="/css/adminBloodStock.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <span>Blood Bridge</span>
+      </div>
+      <ul class="nav-links">
+        <li><a class="link" href="admin.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a class="link" href="adminDonor.html"><i class="fas fa-user"></i> Donor</a></li>
+        <li><a class="link" href="adminPatient.html"><i class="fas fa-procedures"></i> Patient</a></li>
+        <li><a class="link" href="adminDonations.html"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+        <li><a class="link" href="adminBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Requests</a></li>
+        <li><a class="link" href="adminRequestHistory.html"><i class="fas fa-history"></i> Request History</a></li>
+        <li class="active"><a class="link" href="adminBloodStock.html"><i class="fas fa-box"></i> Blood Stock</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header>
+        <div class="header-title">Blood Stock Management</div>
+        <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+      </header>
+
+      <!-- Blood Stock Grid -->
+      <div class="blood-stock-grid">
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">A+</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="A+">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">B+</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="B+">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">O+</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="O+">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">AB+</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="AB+">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">A-</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="A-">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">B-</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="B-">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">O-</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="O-">0</div>
+        </div>
+        <div class="blood-stock-card">
+          <div class="blood-info">
+            <span class="blood-type">AB-</span>
+            <i class="fas fa-tint blood-drop"></i>
+          </div>
+          <div class="units" data-group="AB-">0</div>
+        </div>
+      </div>
+
+      <!-- Update Blood Unit Form -->
+      <div class="update-section">
+        <h2>Update Blood Unit</h2>
+        <div class="update-form">
+          <select class="blood-group-select">
+            <option value="">Choose Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="O+">O+</option>
+            <option value="AB+">AB+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="O-">O-</option>
+            <option value="AB-">AB-</option>
+          </select>
+          <input type="number" class="unit-input" placeholder="Unit" />
+          <button class="update-btn">Update</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ✅ JavaScript -->
+  <script>
+      const updateBtn = document.querySelector(".update-btn");
+      const unitInput = document.querySelector(".unit-input");
+      const bloodGroupSelect = document.querySelector(".blood-group-select");
+
+      function loadStock() {
+          fetch("/api/admin/blood-stock")
+              .then(res => res.json())
+              .then(data => {
+                  const stockMap = {};
+                  data.forEach(item => {
+                      stockMap[item.bloodGroup.trim().toUpperCase()] = item.unit;
+                  });
+
+                  const bloodGroups = [
+                      "A+", "B+", "O+", "AB+",
+                      "A-", "B-", "O-", "AB-"
+                  ];
+
+                  bloodGroups.forEach(group => {
+                      const unitBox = document.querySelector(`.units[data-group="${group}"]`);
+                      if (unitBox) {
+                          unitBox.textContent = stockMap[group] ?? 0;
+                      }
+                  });
+              })
+              .catch(err => {
+                  console.error("Failed to load stock:", err);
+              });
+      }
+
+      // Handle update
+      updateBtn.addEventListener("click", () => {
+          const bloodGroup = bloodGroupSelect.value.trim().toUpperCase();
+          const unit = parseInt(unitInput.value);
+
+          if (!bloodGroup || isNaN(unit) || unit <= 0) {
+              alert("Please select a valid blood group and enter units.");
+              return;
+          }
+
+          fetch(`/api/admin/blood-stock/update?bloodGroup=${encodeURIComponent(bloodGroup)}&units=${unit}`, {
+              method: "POST"
+          })
+              .then((res) => res.text())
+              .then((msg) => {
+                  alert(msg);
+                  unitInput.value = "";
+                  loadStock();
+              })
+              .catch((err) => {
+                  alert("Update failed.");
+                  console.error(err);
+              });
+      });
+
+      loadStock();
+  </script>
+
+</body>
+</html>

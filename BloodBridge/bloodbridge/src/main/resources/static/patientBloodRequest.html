@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System - Blood Request</title>
+    <link rel="stylesheet" href="/css/patientBloodRequest.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Blood Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="link" href="patient.html"><i class="fas fa-home"></i> Home</a></li>
+                <li class="active"><a class="link" href="patientBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Request</a></li>
+                <li><a class="link" href="patientRequestHistory.html"><i class="fas fa-clock-rotate-left"></i> Request History</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Make Blood Request</h1>
+                <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+            </header>
+
+            <!-- Request Form -->
+            <div class="form-container">
+                <h2>MAKE BLOOD REQUEST</h2>
+                <form class="request-form">
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" id="patientName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patientAge">Patient Age</label>
+                        <input type="number" id="patientAge" required min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason">Reason</label>
+                        <input type="text" id="reason" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Choose option</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit">Unit (in ml)</label>
+                        <div class="number-input">
+                            <input type="number" id="unit" required min="1" max="450">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prescription">Upload Prescription</label>
+                        <input type="file" id="prescription" accept="image/*" required>
+                        <small class="file-hint">Please upload a clear image of your prescription (JPG, PNG, or PDF)</small>
+                    </div>
+
+                    <button type="submit" class="request-btn">REQUEST</button>
+                </form>
+            </div>
+        </main>
+    </div>
+	<script>
+	document.querySelector(".request-form").addEventListener("submit", function (e) {
+	    e.preventDefault();
+
+	    const userId = localStorage.getItem("userId");
+	    if (!userId) {
+	        alert("User not logged in. Please log in first.");
+	        return;
+	    }
+
+	    const formData = new FormData();
+	    formData.append("patientName", document.getElementById("patientName").value);
+	    formData.append("patientAge", document.getElementById("patientAge").value);
+	    formData.append("reason", document.getElementById("reason").value);
+	    formData.append("bloodGroup", document.getElementById("bloodGroup").value);
+	    formData.append("unit", document.getElementById("unit").value);
+	    formData.append("requesterId", userId);
+	    formData.append("requesterType", "Patient");
+	    
+	    const fileInput = document.getElementById("prescription");
+	    if (fileInput.files.length > 0) {
+	        formData.append("prescription", fileInput.files[0]);
+	    }
+
+	    fetch("http://localhost:8080/api/bloodrequests/upload", {
+	        method: "POST",
+	        body: formData
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            alert("Request with prescription submitted successfully!");
+	            document.querySelector(".request-form").reset();
+	        } else {
+	            alert("Submission failed.");
+	        }
+	    })
+	    .catch(error => {
+	        console.error("Error:", error);
+	        alert("An error occurred while submitting the request.");
+	    });
+	});
+
+	</script>
+
+</body>
+</html> 

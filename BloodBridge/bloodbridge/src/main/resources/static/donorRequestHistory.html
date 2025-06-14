@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System - Request History</title>
+    <link rel="stylesheet" href="/css/donorRequestHistory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Blood Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="link" href="donor.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="link" href="donorDonateBlood.html"><i class="fas fa-hand-holding-medical"></i> Donate Blood</a></li>
+                <li><a class="link" href="donorDonationHistory.html"><i class="fas fa-history"></i> Donation History</a></li>
+                <li><a class="link" href="donorBloodRequest.html"><i class="fas fa-notes-medical"></i> Blood Request</a></li>
+                <li class="active"><a class="link" href="donorRequestHistory.html"><i class="fas fa-clock-rotate-left"></i> Request History</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>My Blood Request History</h1>
+                <button class="logout-btn"><a class="link" href="project.html">Logout <i class="fas fa-sign-out-alt"></i></a></button>
+            </header>
+
+            <!-- History Table -->
+            <div class="table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Patient Age</th>
+                            <th>Reason</th>
+                            <th>Blood Group</th>
+                            <th>Unit</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    
+                </table>
+            </div>
+        </main>
+    </div>
+	<script>
+	window.onload = async function () {
+	    const userId = localStorage.getItem("userId");
+
+	    if (!userId) {
+	        alert("User not logged in.");
+	        return;
+	    }
+
+	    try {
+	        const res = await fetch(`http://localhost:8080/api/bloodrequests/donor/${userId}`);
+	        const data = await res.json();
+
+	        const table = document.querySelector(".history-table");
+
+	        if (data.length === 0) {
+	            const row = `<tr><td colspan="7" style="text-align:center;">No request history found</td></tr>`;
+	            table.innerHTML += row;
+	            return;
+	        }
+
+	        data.forEach(req => {
+	            const row = `
+	                <tr>
+	                    <td>${req.patientName}</td>
+	                    <td>${req.patientAge}</td>
+	                    <td>${req.reason}</td>
+	                    <td>${req.bloodGroup}</td>
+	                    <td>${req.unit}</td>
+	                    <td>${req.date}</td>
+	                    <td><span class="status ${req.status.toLowerCase()}">${req.status}</span></td>
+	                </tr>`;
+	            table.innerHTML += row;
+	        });
+	    } catch (err) {
+	        console.error("Error fetching request history:", err);
+	        alert("Failed to load request history.");
+	    }
+	};
+	</script>
+
+</body>
+</html> 
