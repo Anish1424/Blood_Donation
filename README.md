@@ -1,2 +1,1 @@
-# blood_bridge
-Blood donation management system
+# Blood Bridge - Blood Donation Management System
