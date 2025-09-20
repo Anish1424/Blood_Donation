@@ -5,21 +5,6 @@
 
 ---
 
-
-## 👨‍💻 Developed By
-
-This project is developed as part of our B.Tech Final Year Submission.
-
-- Sweety Acharjee  
-- Disha Mondal  
-- Ayesha Khatun  
-
-Department of Computer Science & Engineering  
-Session: 2021–2025
-
----
----
-
 ## 🧩 Project Modules
 
 - 🩸 **Donor**
@@ -70,20 +55,10 @@ Session: 2021–2025
 
 ## 📂 Repository Structure
 
-Final_year_project/
+_project/
 │
 ├── BloodBridge/      → Spring Boot + frontend source code
 ├── Dump20250612/     → SQL database schema + data dump
 └── INSTALLATION.txt  → Step-by-step installation and run guide
 
 ---
-
-## 📬 Contact
-
-📧 Email: bloodbridge08@gmail.com  
-🌐 [GitHub - SweetyAcharjee](https://github.com/sweetyacharjee)
-🌐 [GitHub - DishaMondal](https://github.com/Rupshi-1412)
-🌐 [GitHub - AyeshaKhaun](https://github.com/Ayesha-Khatun-123)
-
-
-
