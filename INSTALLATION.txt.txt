@@ -145,10 +145,9 @@ for API calls to work.
 
 For support or feedback:
 
-📧 Email: bloodbridge08@gmail.com  
-👩 Author: Sweety Acharjee  
-👩‍💻 Team Members: Disha Mondal, Ayesha Khatun  
-🎓 Final Year B.Tech Project – Blood Bridge
+📧 Email: anishdawkhar9045@gmail.com  
+👩‍💻 Team Members: Anish Dawkhar, Abhay Borase  
+🎓 Project – Blood Bridge
 
 =====================================================
           END OF INSTALLATION GUIDE
